@@ -1,0 +1,72 @@
+[
+	{
+		"name": "Product A",
+		"price": 19.99,
+		"description": "High-quality product with advanced features.",
+		"note": "Limited edition color available",
+		"stock": 50
+	},
+	{
+		"name": "Product B",
+		"price": 29.99,
+		"description": "Versatile and durable design.",
+		"note": "Free shipping on orders over $50",
+		"stock": 100
+	},
+	{
+		"name": "Product C",
+		"price": 14.99,
+		"description": "Compact and lightweight for easy portability.",
+		"note": "Available in multiple colors",
+		"stock": 75
+	},
+	{
+		"name": "Product D",
+		"price": 39.99,
+		"description": "Premium materials for maximum comfort.",
+		"note": "Recommended by professionals",
+		"stock": 30
+	},
+	{
+		"name": "Product E",
+		"price": 49.99,
+		"description": "Smart technology integration for enhanced functionality.",
+		"note": "Compatible with popular devices",
+		"stock": 60
+	},
+	{
+		"name": "Product F",
+		"price": 24.99,
+		"description": "Eco-friendly and sustainable construction.",
+		"note": "Recyclable packaging",
+		"stock": 80
+	},
+	{
+		"name": "Product G",
+		"price": 34.99,
+		"description": "Multi-purpose with customizable settings.",
+		"note": "User-friendly interface",
+		"stock": 45
+	},
+	{
+		"name": "Product H",
+		"price": 59.99,
+		"description": "High-performance with advanced specifications.",
+		"note": "Limited warranty included",
+		"stock": 25
+	},
+	{
+		"name": "Product I",
+		"price": 19.99,
+		"description": "Classic design with modern features.",
+		"note": "Special discount for first-time buyers",
+		"stock": 90
+	},
+	{
+		"name": "Product J",
+		"price": 44.99,
+		"description": "Wireless connectivity for seamless user experience.",
+		"note": "Long-lasting battery life",
+		"stock": 55
+	}
+]
