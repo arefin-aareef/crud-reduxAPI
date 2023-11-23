@@ -6,18 +6,18 @@ export const productsApi: any = createApi({
 	tagTypes: ['Products'],
 	endpoints: builder => ({
 		getAllProducts: builder.query({
-			query: () => '/api/v1/products',
+			query: () => '/products',
 			providesTags: ['Products'],
 		}),
 
 		getSingleProduct: builder.query({
-			query: id => `/api/v1/products/${id}`,
+			query: id => `/products/${id}`,
 			providesTags: id => [{ type: 'Products', id }],
 		}),
 
 		updateSingleProduct: builder.mutation({
 			query: ({ id, body }) => ({
-				url: `/api/v1/products/${id}`,
+				url: `/products/${id}`,
 				method: 'PATCH',
 				body,
 			}),
@@ -26,7 +26,7 @@ export const productsApi: any = createApi({
 
 		createSingleProduct: builder.mutation({
 			query: body => ({
-				url: '/api/v1/products',
+				url: '/products',
 				method: 'POST',
 				body,
 			}),
@@ -35,7 +35,7 @@ export const productsApi: any = createApi({
 
 		deleteSingleProduct: builder.mutation({
 			query: id => ({
-				url: `/api/v1/products/${id}`,
+				url: `/products/${id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['Products'],

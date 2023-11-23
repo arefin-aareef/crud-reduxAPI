@@ -14,7 +14,7 @@ const Home = () => {
 	const { data: products, isError, isLoading } = useGetAllProductsQuery({});
 	const [trigger, result] = useDeleteSingleProductMutation()
 
-	console.log('check data', products);
+	// console.log('check data', products);
 
 	const handleDelete = (id:string) => {
 		trigger(id)
@@ -59,7 +59,7 @@ const Home = () => {
 						p='16px'
 					>
 						{products &&
-							products.doc.map((product: any, index: number) => (
+							products.map((product: any, index: number) => (
 								<Card key={index} border='2px solid teal' w='200px' h='200px'>
 									<CardBody display='flex' flexDir='column' flex={1}>
 										<Text>Name: {product.name}</Text>

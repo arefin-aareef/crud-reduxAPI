@@ -11,7 +11,7 @@ type viewDetailsProps = {
 const Details = ({ params }: viewDetailsProps) => {
 	const { id } = params;
 	const { data: product, isError, isLoading } = useGetSingleProductQuery(id);
-	// console.log(product);
+	// console.log('check', product);
 
 	return (
 		<Flex
@@ -37,17 +37,17 @@ const Details = ({ params }: viewDetailsProps) => {
 				</Text>
 			) : (
 				<Card p='16px' border='2px solid teal' h='300px' w='300px'>
-						<Link href={`/update/${product.doc._id}`}>
+						<Link href={`/update/${product._id}`}>
 							<Button colorScheme='yellow' size='sm' w='full'>
 								Update
 							</Button>
 						</Link>
 					<CardBody>
-						<Text>Name: {product?.doc?.name}</Text>
-						<Text>Price: {product?.doc?.price}</Text>
-						<Text>Description: {product?.doc?.description}</Text>
-						<Text>Note: {product?.doc?.note}</Text>
-						<Text>Stock: {product?.doc?.stock}</Text>
+						<Text>Name: {product?.name}</Text>
+						<Text>Price: {product?.price}</Text>
+						<Text>Description: {product?.description}</Text>
+						<Text>Note: {product?.note}</Text>
+						<Text>Stock: {product?.stock}</Text>
 					</CardBody>
 				</Card>
 			)}
