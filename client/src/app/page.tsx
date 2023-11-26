@@ -7,8 +7,11 @@ import {
 	CardBody,
 	Link,
 	Grid,
+	Spinner,
 } from '@chakra-ui/react';
 import { useDeleteSingleProductMutation, useGetAllProductsQuery } from '../store/slices/apiSlice';
+import Swal from 'sweetalert2';
+
 
 const Home = () => {
 	const { data: products, isError, isLoading } = useGetAllProductsQuery({});
@@ -17,21 +20,39 @@ const Home = () => {
 	// console.log('check data', products);
 
 	const handleDelete = (id:string) => {
-		trigger(id)
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!',
+		}).then(result => {
+			if (result.isConfirmed) {
+				trigger(id)
+				Swal.fire({
+					position: 'center',
+					icon: 'success',
+					title: 'Product has been deleted',
+					showConfirmButton: false,
+					timer: 1000,
+				});
+			}
+		});
 	}
 
 	return (
-		<Flex
-			w='full'
-			gap='8px'
-			p='8px'
-			alignItems='center'
-			justifyContent='center'
-		>
+		<Flex w='full' gap='8px' p='8px' justifyContent='center' alignItems='center' direction='column' minH='90vh'>
 			{isLoading ? (
-				<Text color='teal' fontSize='60px' mx='auto' my='auto'>
-					Loading...
-				</Text>
+				<Spinner
+					thickness='4px'
+					speed='0.65s'
+					emptyColor='gray.200'
+					color='blue.500'
+					size='xl'
+					my='auto'
+				/>
 			) : isError ? (
 				<Text color='teal' fontSize='60px' mx='auto' my='auto'>
 					An error occurred
@@ -44,12 +65,8 @@ const Home = () => {
 						p='16px'
 						justifyContent='space-evenly'
 						gap='16px'
-					>	
-					<Link href='/create'>
-						<Button colorScheme='teal'>
-							Create
-						</Button>
-					</Link>
+					>
+						<Text fontSize='3xl'>Products Gallery</Text>
 					</Flex>
 					<Grid
 						border='2px solid teal'
@@ -70,9 +87,13 @@ const Home = () => {
 													View details
 												</Button>
 											</Link>
-												<Button onClick={() => handleDelete(product._id)} colorScheme='red' size='sm'>
-													Delete
-												</Button>
+											<Button
+												onClick={() => handleDelete(product._id)}
+												colorScheme='red'
+												size='sm'
+											>
+												Delete
+											</Button>
 										</Flex>
 									</CardBody>
 								</Card>

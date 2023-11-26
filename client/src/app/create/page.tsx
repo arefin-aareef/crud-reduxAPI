@@ -1,9 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { Button, Flex, FormLabel, Input, Text } from '@chakra-ui/react';
-import Link from 'next/link';
+import { Button, Flex, FormLabel, Input, Spinner, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useCreateSingleProductMutation } from '@/src/store/slices/apiSlice';
+import Swal from 'sweetalert2';
 
 const Create = () => {
 
@@ -34,28 +34,27 @@ const Create = () => {
 
     	useEffect(() => {
 				if (result.isSuccess) {
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'New Product has been created',
+						showConfirmButton: false,
+						timer: 1500,
+					});
 					router.push('/');
 				}
 			}, [result, router]);
 
 	return (
-		<Flex w='full' alignItems='center' justifyContent='center'>
-			<Link href='/'>
-				<Button
-					position='absolute'
-					top={10}
-					left={10}
-					colorScheme='green'
-					type='submit'
-				>
-					Home
-				</Button>
-			</Link>
-
+		<Flex w='full' alignItems='center' justifyContent='center' p='8px' minH='90vh'>
 			{isLoading ? (
-				<Text color='teal' fontSize='60px' mx='auto' my='auto'>
-					Loading...
-				</Text>
+				<Spinner
+					thickness='4px'
+					speed='0.65s'
+					emptyColor='gray.200'
+					color='blue.500'
+					size='xl'
+				/>
 			) : isError ? (
 				<Text color='teal' fontSize='60px' mx='auto' my='auto'>
 					An error occurred
@@ -88,7 +87,7 @@ const Create = () => {
 							<FormLabel>Price: {newPrice} </FormLabel>
 							<Flex gap='4px'>
 								<Input
-                type='number'
+									type='number'
 									value={newPrice}
 									onChange={e => setNewPrice(e.target.value)}
 								/>
@@ -116,6 +115,7 @@ const Create = () => {
 							<FormLabel>Stock: {newStock} </FormLabel>
 							<Flex gap='4px'>
 								<Input
+									type='number'
 									value={newStock}
 									onChange={e => setNewStock(e.target.value)}
 								/>

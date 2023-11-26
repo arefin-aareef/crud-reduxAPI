@@ -3,11 +3,12 @@ import {
 	useGetSingleProductQuery,
 	useUpdateSingleProductMutation,
 } from '@/src/store/slices/apiSlice';
-import { Button, Flex, FormLabel, Input, Text } from '@chakra-ui/react';
-import axios from 'axios';
+import { Button, Flex, FormLabel, Input, Spinner, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+
 
 type updateDetailsProps = {
 	params: {
@@ -29,15 +30,22 @@ const Update = ({ params }: updateDetailsProps) => {
 	const [newStock, setNewStock] = useState('');
 
 	useEffect(() => {
-		setNewName(product?.doc?.name);
-		setNewPrice(product?.doc?.price);
-		setNewDescription(product?.doc?.description);
-		setNewNotes(product?.doc?.note);
-		setNewStock(product?.doc?.stock);
+		setNewName(product?.name);
+		setNewPrice(product?.price);
+		setNewDescription(product?.description);
+		setNewNotes(product?.note);
+		setNewStock(product?.stock);
 	}, [product]);
 
 	useEffect(() => {
 		if (result.isSuccess) {
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: 'Product has been updated',
+				showConfirmButton: false,
+				timer: 1500,
+			});
 			router.push(`/details/${id}`);
 		}
 	}, [result, id, router]);
@@ -57,84 +65,88 @@ const Update = ({ params }: updateDetailsProps) => {
 	};
 
 	return (
-		<Flex
-			w='full'
-			alignItems='center'
-			justifyContent='center'
-		>
-			<Link href='/'>
-				<Button
-					position='absolute'
-					top={10}
-					left={10}
-					colorScheme='green'
-					type='submit'
-				>
-					Home
-				</Button>
-			</Link>
-			<Flex direction='column' border='2px solid teal' gap='8px' p='8px'>
-				<Flex
-					as={'form'}
-					onSubmit={handleSubmit}
-					direction='column'
-					gap='8px'
-					w='700px'
-				>
-					<Flex alignItems='center' justifyContent='space-between'>
-						<Text>Update Information</Text>
-						<Button colorScheme='blue' type='submit'>
-							Update
-						</Button>
-					</Flex>
-					<Flex direction='column' border='2px solid teal' p='16px'>
-						<FormLabel>Name: {newName} </FormLabel>
-						<Flex gap='4px'>
-							<Input
-								value={newName}
-								onChange={e => setNewName(e.target.value)}
-							/>
+		<Flex minH='90vh'>
+			<Flex w='full' alignItems='center' justifyContent='center' >
+				{isLoading ? (
+					<Spinner
+						thickness='4px'
+						speed='0.65s'
+						emptyColor='gray.200'
+						color='blue.500'
+						size='xl'
+						my='auto'
+					/>
+				) : isError ? (
+					<Text color='teal' fontSize='60px' mx='auto' my='auto'>
+						An error occurred
+					</Text>
+				) : (
+					<Flex direction='column' border='2px solid teal' gap='8px' 
+					p='8px'
+					>
+						<Flex
+							as={'form'}
+							onSubmit={handleSubmit}
+							direction='column'
+							gap='8px'
+							w='700px'
+						>
+							<Flex alignItems='center' justifyContent='space-between'>
+								<Text>Update Information</Text>
+								<Button colorScheme='blue' type='submit'>
+									Update
+								</Button>
+							</Flex>
+							<Flex direction='column' border='2px solid teal' p='16px'>
+								<FormLabel>Name: {newName} </FormLabel>
+								<Flex gap='4px'>
+									<Input
+										value={newName}
+										onChange={e => setNewName(e.target.value)}
+									/>
+								</Flex>
+							</Flex>
+							<Flex direction='column' border='2px solid teal' p='16px'>
+								<FormLabel>Price: {newPrice} </FormLabel>
+								<Flex gap='4px'>
+									<Input
+										type='number'
+										value={newPrice}
+										onChange={e => setNewPrice(e.target.value)}
+									/>
+								</Flex>
+							</Flex>
+							<Flex direction='column' border='2px solid teal' p='16px'>
+								<FormLabel>Description: {newDescription} </FormLabel>
+								<Flex gap='4px'>
+									<Input
+										value={newDescription}
+										onChange={e => setNewDescription(e.target.value)}
+									/>
+								</Flex>
+							</Flex>
+							<Flex direction='column' border='2px solid teal' p='16px'>
+								<FormLabel>Notes: {newNotes} </FormLabel>
+								<Flex gap='4px'>
+									<Input
+										value={newNotes}
+										onChange={e => setNewNotes(e.target.value)}
+									/>
+								</Flex>
+							</Flex>
+							<Flex direction='column' border='2px solid teal' p='16px'>
+								<FormLabel>Stock: {newStock} </FormLabel>
+								<Flex gap='4px'>
+									<Input
+										type='number'
+										value={newStock}
+										onChange={e => setNewStock(e.target.value)}
+									/>
+								</Flex>
+							</Flex>
 						</Flex>
 					</Flex>
-					<Flex direction='column' border='2px solid teal' p='16px'>
-						<FormLabel>Price: {newPrice} </FormLabel>
-						<Flex gap='4px'>
-							<Input
-							type='number'
-								value={newPrice}
-								onChange={e => setNewPrice(e.target.value)}
-							/>
-						</Flex>
-					</Flex>
-					<Flex direction='column' border='2px solid teal' p='16px'>
-						<FormLabel>Description: {newDescription} </FormLabel>
-						<Flex gap='4px'>
-							<Input
-								value={newDescription}
-								onChange={e => setNewDescription(e.target.value)}
-							/>
-						</Flex>
-					</Flex>
-					<Flex direction='column' border='2px solid teal' p='16px'>
-						<FormLabel>Notes: {newNotes} </FormLabel>
-						<Flex gap='4px'>
-							<Input
-								value={newNotes}
-								onChange={e => setNewNotes(e.target.value)}
-							/>
-						</Flex>
-					</Flex>
-					<Flex direction='column' border='2px solid teal' p='16px'>
-						<FormLabel>Stock: {newStock} </FormLabel>
-						<Flex gap='4px'>
-							<Input
-							type='number'
-								value={newStock}
-								onChange={e => setNewStock(e.target.value)}
-							/>
-						</Flex>
-					</Flex>
-				</Flex>
+				)}
 			</Flex>
 		</Flex>
 	);

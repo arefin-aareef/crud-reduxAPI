@@ -25,9 +25,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
 	try {
-		// Connect the client to the server	(optional starting in v4.7)
 		// await client.connect();
-		// Send a ping to confirm a successful connection
 
 		const productsCollection = client.db('crudDB').collection('products');
 
@@ -43,6 +41,25 @@ async function run() {
 			res.send(result);
 		});
 
+		app.patch('/products/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id : new ObjectId(id)};
+			const result = await productsCollection.updateOne(query ,{ $set: req.body });
+			res.send(result)
+		})
+
+		app.delete('/products/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = {_id : new ObjectId(id)};
+			const result = await productsCollection.deleteOne(query);
+			res.send(result);
+		})
+		app.post('/products', async (req, res) => {
+			const item = req.body;
+			const result = await productsCollection.insertOne(item)
+			res.send(result)
+		})
+
 		await client.db('admin').command({ ping: 1 });
 		console.log(
 			'Pinged your deployment. You successfully connected to MongoDB!'
@@ -55,7 +72,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-	res.send('Hello World!');
+	res.send('App is running');
 });
 
 app.listen(port, () => {
